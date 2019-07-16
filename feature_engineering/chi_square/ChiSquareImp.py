@@ -11,7 +11,7 @@ class ChiSquareImp:
         :return: a list of elements with format as [feature_value, label, count]
         '''
         fea_cnt = []
-        filtered_f_values.sort(key=lambda x: x[1])
+        filtered_f_values.sort(key=lambda x: x[0])
         i = 0
         while i < len(filtered_f_values):
             cnt = filtered_f_values.count(filtered_f_values[i])
@@ -49,7 +49,7 @@ class ChiSquareImp:
         :return: a tuple with value (feature_value, [label_1_cnt, label_2_cnt])
         '''
         fea_label_tuple_c = fea_label_tuple_a[:]
-        for i in range(fea_label_tuple_a[1]):
+        for i in range(len(fea_label_tuple_a[1])):
             fea_label_tuple_c[1][i] += fea_label_tuple_b[1][i]
         return fea_label_tuple_c
 

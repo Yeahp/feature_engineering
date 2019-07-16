@@ -1,3 +1,4 @@
 *.idea/
 *target/
-feature-engineering/test/
+feature_engineering/test/
+*__pycache__/
