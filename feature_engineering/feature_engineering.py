@@ -11,7 +11,7 @@ class feature_engineering:
         feature_info.dump(feature_transform_path)
 
     @staticmethod
-    def feature_tranform(feature_path: str, origin_data_path: str, new_data_path: str, sample_format: str):
+    def feature_transform(feature_path: str, origin_data_path: str, new_data_path: str, sample_format: str):
         feature_transform_path = feature_path + ".transform"
         feature_info = FeatureInfo()
         feature_info.load(feature_transform_path)

@@ -15,7 +15,9 @@
         machine learning. Chi-Square one-hot takes both feature value and label into consideration. Given
         a label, Chi-Square test display difference between observed groups which enable us to divide the 
         interval artificially and subjectively for each feature.
+
 (3) Demo: how to use this package?
+    Here's an example: 
     from feature_engineering.feature_engineering import feature_engineering
     if __name__ == "__main__":
         origin_train_path = ''
