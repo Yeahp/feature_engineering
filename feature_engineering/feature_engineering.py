@@ -21,5 +21,6 @@ class feature_engineering:
                 f2.write(feature_info.transform(tmp.strip(), sample_format) + "\n")
                 tmp = f1.readline()
 
-
-
+    @staticmethod
+    def hello():
+        print("hello, feature engineering!")
