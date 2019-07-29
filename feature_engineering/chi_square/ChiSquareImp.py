@@ -11,14 +11,18 @@ class ChiSquareImp:
         :return: a list of elements with format as [feature_value, label, count]
         '''
         fea_cnt = []
-        filtered_f_values.sort(key=lambda x: x[0])
+        filtered_f_values.sort(key=lambda x: (x[0], x[1]), reverse=False)
         i = 0
+        item: list = filtered_f_values[0]
+        cnt = 0
         while i < len(filtered_f_values):
-            cnt = filtered_f_values.count(filtered_f_values[i])
-            record = list(filtered_f_values[i][:])
-            record.append(cnt)
-            fea_cnt.append(record)
-            i += cnt
+            if filtered_f_values[i] == item:
+                cnt += 1
+            else:
+                item.append(cnt)
+                cnt = 1
+                item = filtered_f_values[i]
+            i += 1
         return fea_cnt
 
     @staticmethod
@@ -32,13 +36,13 @@ class ChiSquareImp:
             if record[0] not in fea_label_dic.keys():
                 fea_label_dic[record[0]] = [0, 0]
             if record[1] == '0':
-                fea_label_dic[record[0]][0] = record[2]
+                fea_label_dic[record[0]][0] += record[2]
             elif record[1] == '1':
-                fea_label_dic[record[0]][1] = record[2]
+                fea_label_dic[record[0]][1] += record[2]
             else:
                 print("data exception: label type error!")
                 sys.exit(101)
-        fea_label_tuple = sorted(fea_label_dic.items())
+        fea_label_tuple = fea_label_dic.items()
         return fea_label_tuple
 
     @staticmethod
@@ -123,4 +127,3 @@ class ChiSquareImp:
                 num_interval = len(fea_label_tuple)
         split_point_list = [record[0] for record in fea_label_tuple]
         return split_point_list
-

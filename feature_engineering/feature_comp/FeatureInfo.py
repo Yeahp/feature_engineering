@@ -30,20 +30,14 @@ class FeatureInfo:
         data = pd.read_csv(data_path, sep='\t', header=None, names=names, dtype=self.types, na_values=na_list)
         for i in range(len(self.transformers)):
             if isinstance(self.transformers[i].operation, ChiSquareOneHotOperation):
-                f_values = list(zip(data.ix[:, i + 1].tolist(), data.ix[:, 0].tolist()))
-                self.transformers[i].fit(f_values)
-                print('feature ' + str(i) + ': ' + self.names[i] + ' fit over!')
-                if i == 0:
-                    self.offsets.append(0)
-                else:
-                    self.offsets.append(self.offsets[i - 1] + self.transformers[i - 1].size())
+                self.transformers[i].fit(list(zip(data.ix[:, i + 1].tolist(), data.ix[:, 0].tolist())))
             else :
                 self.transformers[i].fit(data.ix[:, i + 1].tolist())
-                print('feature ' + str(i) + ': ' + self.names[i] + ' fit over!')
-                if i == 0:
-                    self.offsets.append(0)
-                else:
-                    self.offsets.append(self.offsets[i - 1] + self.transformers[i - 1].size())
+            print('feature ' + str(i) + ': ' + self.names[i] + ' fit over!')
+            if i == 0:
+                self.offsets.append(0)
+            else:
+                self.offsets.append(self.offsets[i - 1] + self.transformers[i - 1].size())
 
     def load(self, feature_transform_path):
         self.transformers = list()
