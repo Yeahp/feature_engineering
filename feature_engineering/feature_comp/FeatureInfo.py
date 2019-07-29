@@ -27,7 +27,7 @@ class FeatureInfo:
         names.extend(self.names)
         self.types['label'] = np.str
         na_list = ['\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan']
-        data = pd.read_table(data_path, sep='\t', header=None, names=names, dtype=self.types, na_values=na_list)
+        data = pd.read_csv(data_path, sep='\t', header=None, names=names, dtype=self.types, na_values=na_list)
         for i in range(len(self.transformers)):
             if isinstance(self.transformers[i].operation, ChiSquareOneHotOperation):
                 f_values = list(zip(data.ix[:, i + 1].tolist(), data.ix[:, 0].tolist()))
@@ -37,7 +37,7 @@ class FeatureInfo:
                     self.offsets.append(0)
                 else:
                     self.offsets.append(self.offsets[i - 1] + self.transformers[i - 1].size())
-            else:
+            else :
                 self.transformers[i].fit(data.ix[:, i + 1].tolist())
                 print('feature ' + str(i) + ': ' + self.names[i] + ' fit over!')
                 if i == 0:

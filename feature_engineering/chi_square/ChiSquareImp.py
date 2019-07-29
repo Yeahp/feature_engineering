@@ -123,3 +123,4 @@ class ChiSquareImp:
                 num_interval = len(fea_label_tuple)
         split_point_list = [record[0] for record in fea_label_tuple]
         return split_point_list
+

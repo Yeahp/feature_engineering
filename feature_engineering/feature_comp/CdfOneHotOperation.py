@@ -45,6 +45,11 @@ class CdfOneHotOperation:
         return offset + self.find(f_value), 1.0
 
     def find(self, v):
+        '''
+        upward compatible
+        :param v: feature value
+        :return:  position comparing to each of thresholds
+        '''
         for i in range(len(self.thresholds)):
             if float(v) <= self.thresholds[i]:
                 return i

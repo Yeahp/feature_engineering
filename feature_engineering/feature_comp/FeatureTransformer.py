@@ -1,3 +1,4 @@
+import sys
 from feature_engineering.feature_comp.OneHotOperation import OneHotOperation
 from feature_engineering.feature_comp.CdfOneHotOperation import CdfOneHotOperation
 from feature_engineering.feature_comp.ChiSquareOneHotOperation import ChiSquareOneHotOperation
@@ -35,6 +36,9 @@ class FeatureTransformer:
                 self.operation = ChiSquareOneHotOperation(float(tokens[1]))
             elif transformer_type == 'onehot':
                 self.operation = OneHotOperation()
+            else:
+                print('unkown transformer type: ' + transformer_type)
+                sys.exit(404)
 
     def fit(self, f_values):
         if self.operation is not None:
@@ -63,6 +67,9 @@ class FeatureTransformer:
             elif transformer_type == 'onehot':
                 self.operation = OneHotOperation()
                 self.operation.load(items[5])
+            else:
+                print('unkown transformer type: ' + transformer_type)
+                sys.exit(404)
 
     def dump(self):
         items = list()
