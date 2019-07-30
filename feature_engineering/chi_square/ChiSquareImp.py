@@ -7,7 +7,7 @@ class ChiSquareImp:
     @staticmethod
     def feature_label_count(filtered_f_values: list):
         '''
-        :param filtered_f_values: a list of elements with format as [feature_value, label]
+        :param filtered_f_values: a list of elements with format as (feature_value, label)
         :return: a list of elements with format as [feature_value, label, count]
         '''
         fea_cnt = []
@@ -20,6 +20,7 @@ class ChiSquareImp:
                 cnt += 1
             else:
                 item.append(cnt)
+                fea_cnt.append(item)
                 cnt = 1
                 item = filtered_f_values[i]
             i += 1
@@ -42,8 +43,7 @@ class ChiSquareImp:
             else:
                 print("data exception: label type error!")
                 sys.exit(101)
-        fea_label_tuple = fea_label_dic.items()
-        return fea_label_tuple
+        return fea_label_dic.items()
 
     @staticmethod
     def combine_two_feature(fea_label_tuple_a: tuple, fea_label_tuple_b: tuple):
