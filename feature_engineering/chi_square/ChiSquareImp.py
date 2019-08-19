@@ -7,13 +7,13 @@ class ChiSquareImp:
     @staticmethod
     def feature_label_count(filtered_f_values: list):
         '''
-        :param filtered_f_values: a list of elements with format as (feature_value, label)
+        :param filtered_f_values: a list of elements with format as [feature_value, label]
         :return: a list of elements with format as [feature_value, label, count]
         '''
         fea_cnt = []
-        filtered_f_values.sort(key=lambda x: (x[0], x[1]), reverse=False)
+        filtered_f_values.sort(key=lambda x: (x[0], x[1]))
         i = 0
-        item: list = filtered_f_values[0]
+        item: list = list(filtered_f_values[0])
         cnt = 0
         while i < len(filtered_f_values):
             if filtered_f_values[i] == item:
@@ -22,8 +22,7 @@ class ChiSquareImp:
                 item.append(cnt)
                 fea_cnt.append(item)
                 cnt = 1
-                item = filtered_f_values[i]
-            i += 1
+                item = list(filtered_f_values[i])
         return fea_cnt
 
     @staticmethod
@@ -37,9 +36,9 @@ class ChiSquareImp:
             if record[0] not in fea_label_dic.keys():
                 fea_label_dic[record[0]] = [0, 0]
             if record[1] == '0':
-                fea_label_dic[record[0]][0] += record[2]
+                fea_label_dic[record[0]][0] = record[2]
             elif record[1] == '1':
-                fea_label_dic[record[0]][1] += record[2]
+                fea_label_dic[record[0]][1] = record[2]
             else:
                 print("data exception: label type error!")
                 sys.exit(101)

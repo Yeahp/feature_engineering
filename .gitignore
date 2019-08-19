@@ -2,3 +2,4 @@
 *target/
 feature_engineering/test/
 *__pycache__/
+*test/
