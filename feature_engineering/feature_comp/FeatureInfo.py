@@ -1,7 +1,16 @@
 import pandas as pd
 import numpy as np
+import threading
 from feature_engineering.feature_comp.FeatureTransformer import FeatureTransformer
 from feature_engineering.feature_comp.ChiSquareOneHotOperation import ChiSquareOneHotOperation
+
+
+def _fit(data: pd.DataFrame, names: list, transformers: list, no: int):
+    if isinstance(transformers[no].operation, ChiSquareOneHotOperation):
+        transformers[no].fit(list(zip(data.ix[:, no + 1].tolist(), data.ix[:, 0].tolist())))
+    else:
+        transformers[no].fit(data.ix[:, no + 1].tolist())
+    print('feature ' + str(no) + ': ' + names[no] + ' fit over!')
 
 
 class FeatureInfo:
@@ -28,12 +37,21 @@ class FeatureInfo:
         self.types['label'] = np.str
         na_list = ['\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan']
         data = pd.read_csv(data_path, sep='\t', header=None, names=names, dtype=self.types, na_values=na_list)
+        threads = list()
         for i in range(len(self.transformers)):
+            new_thread = threading.Thread(target=_fit(data=data, names=self.names, transformers=self.transformers, no=i))
+            new_thread.start()
+            threads.append(new_thread)
+        for thread in threads:
+            thread.join()
+        for i in range(len(self.transformers)):
+            '''
             if isinstance(self.transformers[i].operation, ChiSquareOneHotOperation):
                 self.transformers[i].fit(list(zip(data.ix[:, i + 1].tolist(), data.ix[:, 0].tolist())))
             else :
                 self.transformers[i].fit(data.ix[:, i + 1].tolist())
             print('feature ' + str(i) + ': ' + self.names[i] + ' fit over!')
+            '''
             if i == 0:
                 self.offsets.append(0)
             else:
