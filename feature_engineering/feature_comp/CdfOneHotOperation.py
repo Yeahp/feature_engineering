@@ -9,7 +9,7 @@ class CdfOneHotOperation:
 
     def fit(self, f_values):
         self.thresholds = list()
-        filtered_f_values = list(filter(lambda x: str(x) not in {'\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}, f_values))
+        filtered_f_values = list(filter(lambda x: str(x) not in {'', '\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}, f_values))
         if len(f_values) != len(filtered_f_values):
             self.has_null = 1
         f_length = len(filtered_f_values)
@@ -33,7 +33,7 @@ class CdfOneHotOperation:
         return ",".join(str(x) for x in self.thresholds) + "#" + str(self.has_null)
 
     def transform(self, f_value, offset):
-        if str(f_value) in {'\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}:
+        if str(f_value) in {'', '\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}:
             if self.has_null == 1:
                 return offset, 1.0
             else:

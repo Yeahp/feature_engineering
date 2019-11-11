@@ -9,7 +9,7 @@ class ChiSquareOneHotOperation:
         self.has_null: int = 0
 
     def fit(self, f_values):
-        filtered_f_values = list(filter(lambda x: str(x[1]) not in {'\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}, f_values))
+        filtered_f_values = list(filter(lambda x: str(x[1]) not in {'', '\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}, f_values))
         if len(f_values) != len(filtered_f_values):
             self.has_null = 1
         fea_label_cnt = ChiSquareImp.feature_label_count(filtered_f_values)
@@ -29,7 +29,7 @@ class ChiSquareOneHotOperation:
         return ",".join(str(x) for x in self.thresholds) + "#" + str(self.has_null)
 
     def transform(self, f_value, offset):
-        if str(f_value) in {'\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}:
+        if str(f_value) in {'', '\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}:
             if self.has_null == 1:
                 return offset, 1.0
             else:

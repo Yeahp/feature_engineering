@@ -16,7 +16,7 @@ class OneHotOperation:
 
     def fit(self, f_values):
         self.value2index = dict()
-        filtered_f_values = list(filter(lambda x: str(x) not in {'\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}, f_values))
+        filtered_f_values = list(filter(lambda x: str(x) not in {'', '\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan'}, f_values))
         filtered_f_values.sort(key=lambda x: x)
         if len(filtered_f_values) != len(f_values):
             self.value2index['null'] = 0

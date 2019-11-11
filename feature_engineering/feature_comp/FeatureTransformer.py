@@ -2,6 +2,7 @@ import sys
 from feature_engineering.feature_comp.OneHotOperation import OneHotOperation
 from feature_engineering.feature_comp.CdfOneHotOperation import CdfOneHotOperation
 from feature_engineering.feature_comp.ChiSquareOneHotOperation import ChiSquareOneHotOperation
+from feature_engineering.feature_comp.IGOneHotOperation import IGOneHotOperation
 
 
 class FeatureTransformer:
@@ -34,6 +35,9 @@ class FeatureTransformer:
             elif transformer_type == 'chi_onehot':
                 assert len(tokens) == 2
                 self.operation = ChiSquareOneHotOperation(float(tokens[1]))
+            elif transformer_type == 'ig_onehot':
+                assert len(tokens) == 2
+                self.operation = IGOneHotOperation(float(tokens[1]))
             elif transformer_type == 'onehot':
                 self.operation = OneHotOperation()
             else:
@@ -63,6 +67,10 @@ class FeatureTransformer:
             elif transformer_type == 'chi_onehot':
                 assert len(tokens) == 2
                 self.operation = ChiSquareOneHotOperation(float(tokens[1]))
+                self.operation.load(items[5])
+            elif transformer_type == 'ig_onehot':
+                assert len(tokens) == 2
+                self.operation = IGOneHotOperation(float(tokens[1]))
                 self.operation.load(items[5])
             elif transformer_type == 'onehot':
                 self.operation = OneHotOperation()

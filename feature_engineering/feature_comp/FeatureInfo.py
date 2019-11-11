@@ -3,11 +3,7 @@ import numpy as np
 import threading
 from feature_engineering.feature_comp.FeatureTransformer import FeatureTransformer
 from feature_engineering.feature_comp.ChiSquareOneHotOperation import ChiSquareOneHotOperation
-
-
-def _fit(sub_data, name, transformer, no):
-    transformer.fit(sub_data)
-    print('feature ' + str(no) + ': ' + name + ' fit over!')
+from feature_engineering.feature_comp.IGOneHotOperation import IGOneHotOperation
 
 
 class FeatureInfo:
@@ -34,22 +30,8 @@ class FeatureInfo:
         self.types['label'] = np.str
         na_list = ['\\N', 'null', 'Null', 'NULL', 'none', 'None', 'nan']
         data = pd.read_csv(data_path, sep='\t', header=None, names=names, dtype=self.types, na_values=na_list)
-        '''
-        threads = list()
         for i in range(len(self.transformers)):
-            if isinstance(self.transformers[i].operation, ChiSquareOneHotOperation):
-                sub_data = list(zip(data.ix[:, i + 1].tolist(), data.ix[:, 0].tolist()))
-                new_thread = threading.Thread(target=_fit(sub_data=sub_data, name=self.names[i], transformer=self.transformers[i], no=i))
-            else:
-                sub_data = data.ix[:, i + 1].tolist()
-                new_thread = threading.Thread(target=_fit(sub_data=sub_data, name=self.names[i], transformer=self.transformers[i], no=i))
-            new_thread.start()
-            threads.append(new_thread)
-        for thread in threads:
-            thread.join()
-        '''
-        for i in range(len(self.transformers)):
-            if isinstance(self.transformers[i].operation, ChiSquareOneHotOperation):
+            if isinstance(self.transformers[i].operation, ChiSquareOneHotOperation) or isinstance(self.transformers[i].operation, IGOneHotOperation):
                 self.transformers[i].fit(list(zip(data.ix[:, i + 1].tolist(), data.ix[:, 0].tolist())))
             else :
                 self.transformers[i].fit(data.ix[:, i + 1].tolist())
