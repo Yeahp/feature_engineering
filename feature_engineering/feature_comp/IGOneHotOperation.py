@@ -1,5 +1,4 @@
 import sys
-import collections
 import numpy as np
 
 
@@ -34,10 +33,13 @@ class IGOneHotOperation:
         right_index = 1
         self.thresholds.append(fea_label_list[left_index][0])
         while True:
+            if right_index >= len(fea_label_list):
+                break
+
             left_val = fea_label_list[left_index]
             right_val = fea_label_list[right_index]
 
-            # calculate infomation gain
+            # calculate information gain
             pos_ratio = left_val[1] / (left_val[1] + left_val[2] + 0.0)
             neg_ratio = left_val[2] / (left_val[1] + left_val[2] + 0.0)
             if pos_ratio <= 0.0001 or neg_ratio <= 0.0001:
@@ -59,7 +61,7 @@ class IGOneHotOperation:
                 all_gain = -pos_ratio * np.log(pos_ratio) - neg_ratio * np.log(neg_ratio)
 
             # determine merge or not according to information gain
-            if np.absolute(all_gain - left_gain - right_gain) <= self.min_gain:
+            if all_gain - left_gain - right_gain <= self.min_gain:
                 # concat the interval
                 fea_label_list[left_index][1] += right_val[1]
                 fea_label_list[left_index][2] += right_val[2]
@@ -68,9 +70,6 @@ class IGOneHotOperation:
                 left_index = right_index
                 right_index = left_index + 1
                 self.thresholds.append(fea_label_list[left_index][0])
-
-            if right_index >= len(fea_label_list):
-                break
 
     def load(self, line):
         tokens = line.split('#')
